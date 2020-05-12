@@ -29,9 +29,22 @@ module.exports = {
         use: ['babel-loader'],
       },
       {
-        test: /\.(png|jpe?g|gif|svg|ttf|otf|eot|svg|woff(2)?)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif|ttf|otf|eot|woff(2)?)(\?.*)?$/,
         use: ['file-loader'],
       },
+      {
+        test: /\.svg$/,
+        use: [
+          'babel-loader',
+          {
+            loader: 'react-svg-loader',
+            options: {
+              jsx: true,
+            },
+          },
+        ],
+      },
+
     ],
   },
   plugins: [

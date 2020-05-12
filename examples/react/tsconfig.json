@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "esnext",
     "module": "es2015",
     "moduleResolution": "node",
     "strict": true,
     "sourceMap": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "jsx": "react",
     "experimentalDecorators": true,
@@ -13,5 +16,5 @@
     },
   },
   "include": ["src/**/*"],
-  "exclude": ["./node_modules/**/*"]
+  "exclude": ["node_modules"]
 }

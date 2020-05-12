@@ -1,22 +1,14 @@
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
-import { PrimaryButton } from '@/ui'
+import { init, reset } from '../../model'
+import { ProductsList } from '../containers'
 
 export const Catalog = () => {
-  const { t } = useTranslation()
+  React.useEffect(() => {
+    init()
+    return () => reset()
+  }, [])
 
   return (
-    <Block>
-      <PrimaryButton>
-        {t('catalog.addToCartBtn')}
-      </PrimaryButton>
-    </Block>
+    <ProductsList />
   )
 }
-
-const Block = styled.div`
-  width: 200px;
-  height: 200px;
-  background-color: red;
-`

@@ -1,1 +1,1 @@
-import './theming/init'
+import './features/catalog/init'

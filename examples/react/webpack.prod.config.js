@@ -20,7 +20,7 @@ module.exports = merge(commonConfig, {
     maxEntrypointSize: 512000,
     maxAssetSize: 512000,
   },
-  devtool: false,
+  devtool: 'source-map',
   plugins: [
     ...bundleAnalyzerPlugin,
     new webpack.optimize.ModuleConcatenationPlugin(),
