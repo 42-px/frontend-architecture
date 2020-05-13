@@ -1,5 +1,17 @@
 {
   "catalog": {
     "addToCartBtn": "В корзину"
+  },
+  "signIn": {
+    "formHeader": "Вход",
+    "submitBtn": "Войти",
+    "usernameLabel": "Имя пользователя",
+    "passwordLabel": "Пароль",
+    "usernameErrorText": "Имя пользователя обязательно для заполнения",
+    "passwordErrorText": "Пароль обязателен для заполнения"
+  },
+  "errors": {
+    "InvalidCredentials": "Неверное имя пользователя или пароль",
+    "UnknownError": "Неизвестная ошибка"
   }
 }

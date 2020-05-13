@@ -1,15 +1,30 @@
 import * as React from 'react'
+import { useStore } from 'effector-react'
 import { ThemeProvider, NormalizeCss } from '@/ui'
-import { Routes } from './routes'
+import { Routes } from '@/lib/declarative-routing'
+import { $isAppStateReady, $isAuth, appMounted } from './features/app'
+import { routerConfig } from './router-config'
 
 
-export const App = () => (
-  <div>
+export const App = () => {
+  const isAppStateReady = useStore($isAppStateReady)
+  const isAuth = useStore($isAuth)
+
+  React.useEffect(() => {
+    appMounted()
+  }, [])
+
+  if (!isAppStateReady) {
+    // you can return app global loader
+    return null
+  }
+
+  return (
     <React.Suspense fallback="loading...">
       <NormalizeCss />
       <ThemeProvider>
-        <Routes />
+        <Routes isAuth={isAuth} config={routerConfig} />
       </ThemeProvider>
     </React.Suspense>
-  </div>
-)
+  )
+}

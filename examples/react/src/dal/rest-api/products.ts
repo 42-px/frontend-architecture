@@ -4,6 +4,7 @@
  * axios.$get(), fetch(), etc.
  * In this demo we mock data layer
  */
+import { axios } from '@/lib/http-client'
 import { mockProductCollection } from '../mocks/products'
 import { Product } from '../entities'
 
@@ -16,11 +17,6 @@ const getProducts = ({ limit }: GetProductsParams) => Promise.resolve<Product[]>
   mockProductCollection(limit),
 )
 
-/**
- * Export factory to create collection of fetch methods.
- * In a real app, this function will have an argument
- * like an authorized instance of the http client
- */
-export const createProductsApi = () => ({
+export const productsClient = {
   getProducts,
-})
+}

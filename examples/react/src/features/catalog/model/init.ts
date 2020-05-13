@@ -1,5 +1,5 @@
 import { forward } from 'effector'
-import { dataClient } from '@/features/common'
+import { productsClient } from '@/dal'
 import { catalog } from './domain'
 import { $productsList } from './state'
 import { getProducts, init, reset } from './events'
@@ -24,4 +24,4 @@ forward({
 })
 
 // bind data client with effects
-getProducts.use(dataClient.fetch.products.getProducts)
+getProducts.use(productsClient.getProducts)

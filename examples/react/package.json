@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.9.6",
-    "effector": "^20.14.0",
+    "axios": "^0.19.2",
+    "effector": "^20.15.0",
     "effector-react": "^20.7.1",
     "faker": "^4.1.0",
     "i18next": "^19.4.4",

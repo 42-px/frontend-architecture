@@ -1,4 +1,4 @@
-import faker from 'faker'
+import { random } from '@/lib/random'
 import { Product } from '../entities'
 
 const productsSamples = [
@@ -21,8 +21,8 @@ const productsSamples = [
 ]
 
 export const mockProduct = (): Product => ({
-  id: faker.random.uuid(),
-  ...faker.random.arrayElement(productsSamples),
+  id: random.quickUUID(),
+  ...random.arrayElement(productsSamples),
 })
 
 // eslint-disable-next-line arrow-body-style

@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
 const path = require('path')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 
@@ -48,6 +49,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.EnvironmentPlugin(['REST_API_BASE_URL']),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: indexHtmlPath,

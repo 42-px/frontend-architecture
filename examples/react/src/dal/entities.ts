@@ -1,4 +1,6 @@
-
+/**
+ * Data types
+ */
 export type Image = {
   url: string;
 }

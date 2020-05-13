@@ -1,5 +1,17 @@
 {
   "catalog": {
     "addToCartBtn": "Add to cart"
+  },
+  "signIn": {
+    "formHeader": "Login",
+    "submitBtn": "Sign In",
+    "usernameLabel": "Username",
+    "passwordLabel": "Password",
+    "usernameErrorText": "username is required",
+    "passwordErrorText": "password is required"
+  },
+  "errors": {
+    "InvalidCredentials": "Invalid credentials",
+    "UnknownError": "Unknown error"
   }
 }
