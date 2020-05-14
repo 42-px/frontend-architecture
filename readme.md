@@ -18,7 +18,7 @@
 ## Установка
 
 ```
-$ cd /examples/react
+$ cd examples/react
 $ npm ci
 $ cp .env.example .env
 ```
