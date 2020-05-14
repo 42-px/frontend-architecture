@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import breakpoint from 'styled-components-breakpoint'
+import { breakpoint } from 'styled-components-breakpoint'
 import { Heading } from './Heading'
 import { Text } from './Text'
 import { Counter } from './Counter'

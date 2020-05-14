@@ -28,12 +28,13 @@ const productsSamples = [
   },
 ]
 
-export const mockProduct = (): Product => ({
+export const mockProduct = (product: Partial<Product> = {}): Product => ({
   id: random.quickUUID(),
   ...random.arrayElement(productsSamples),
+  ...product,
 })
 
 // eslint-disable-next-line arrow-body-style
-export const mockProductCollection = (count: number): Product[] => {
-  return new Array(count).fill(null).map(() => mockProduct())
+export const mockProductCollection = (count: number, product?: Partial<Product>): Product[] => {
+  return new Array(count).fill(null).map(() => mockProduct(product))
 }

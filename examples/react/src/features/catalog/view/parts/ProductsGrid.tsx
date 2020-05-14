@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import breakpoint from 'styled-components-breakpoint'
+import { breakpoint } from 'styled-components-breakpoint'
 import { useTranslation } from 'react-i18next'
 import { Product } from '@/dal'
 import { ProductCard } from '@/ui'

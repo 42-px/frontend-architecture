@@ -16,6 +16,8 @@ module.exports = {
     '@typescript-eslint/ban-ts-ignore': 0,
     'max-classes-per-file': 'off',
     '@typescript-eslint/no-empty-function': 'off',
+    'prefer-arrow-callback': 'off',
+    'func-names': 'off',
     'import/no-extraneous-dependencies': ['error', {
       devDependencies: [
         'src/**/*.spec.ts',
@@ -30,12 +32,12 @@ module.exports = {
     'import/no-unresolved': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
   },
-  plugins: ['@typescript-eslint', 'react-hooks', 'import'],
-
+  plugins: ['@typescript-eslint', 'react-hooks', 'import', 'mocha'],
   extends: [
     'airbnb',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/typescript',
+    'plugin:mocha/recommended',
   ],
 
   parserOptions: {

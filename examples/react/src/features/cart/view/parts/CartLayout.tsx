@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import breakpoint from 'styled-components-breakpoint'
+import { breakpoint } from 'styled-components-breakpoint'
 import { useClickOutside } from '@/lib/click-outside'
 import {
   Paper, Icon, ThemedStyledProps, themeVar,
