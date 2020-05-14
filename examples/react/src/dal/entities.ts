@@ -8,7 +8,11 @@ export type Image = {
 export type Product = {
   id: string;
   name: string;
-  price: string;
+  price: number;
   about: string;
   image: Image;
+  currency: {
+    name: string;
+    symbol: string;
+  };
 }

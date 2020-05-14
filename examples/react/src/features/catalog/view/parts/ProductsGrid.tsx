@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import breakpoint from 'styled-components-breakpoint'
 import { useTranslation } from 'react-i18next'
 import { Product } from '@/dal'
-import { ProductCart } from '@/ui'
+import { ProductCard } from '@/ui'
+
 
 type Props = {
   products: Product[];
@@ -21,6 +22,7 @@ export function ProductsGrid({ products, productAddedToCart }: Props) {
           name={product.name}
           description={product.about}
           price={product.price}
+          currencySymbol={product.currency.symbol}
           image={product.image.url}
           addToCartText={t('catalog.addToCartBtn')}
           addBtnClicked={() => productAddedToCart(product)}
@@ -44,7 +46,7 @@ const Wrap = styled.div`
   `}
 `
 
-const ProductGridItem = styled(ProductCart)`
+const ProductGridItem = styled(ProductCard)`
   padding: 8px;
   padding-bottom: 30px;
   max-width: 300px;

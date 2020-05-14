@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useStore } from 'effector-react'
+import { addToCart } from '@/features/app'
 import { $productsList } from '../../model'
 import { ProductsGrid } from '../parts'
 
@@ -9,7 +10,7 @@ export const ProductsList = () => {
   return (
     <ProductsGrid
       products={productsList}
-      productAddedToCart={() => {}}
+      productAddedToCart={(product) => addToCart(product)}
     />
   )
 }

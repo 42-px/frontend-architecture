@@ -2,6 +2,9 @@
   "catalog": {
     "addToCartBtn": "В корзину"
   },
+  "cart": {
+    "total": "Итого"
+  },
   "signIn": {
     "formHeader": "Вход",
     "submitBtn": "Войти",

@@ -7,7 +7,8 @@ import { PrimaryButton } from './PrimaryButton'
 
 type Props = {
   name: string;
-  price: string;
+  price: number;
+  currencySymbol?: string;
   image: string;
   description: string;
   addBtnClicked: () => void;
@@ -15,10 +16,11 @@ type Props = {
   className?: string;
 }
 
-export const ProductCart = ({
+export const ProductCard = ({
   name,
   image,
   price,
+  currencySymbol,
   addToCartText,
   description,
   addBtnClicked,
@@ -28,7 +30,10 @@ export const ProductCart = ({
     <Image style={{ backgroundImage: `url(${image})` }} />
     <ProductHeading level="lg">{name}</ProductHeading>
     <Description size="tn" pale>{description}</Description>
-    <Price level="lgx">{price}</Price>
+    <Price level="lgx">
+      {price}
+      {Boolean(currencySymbol) && currencySymbol}
+    </Price>
     <AddToCartBtn icon="cart" onClick={addBtnClicked}>
       {addToCartText}
     </AddToCartBtn>
@@ -45,11 +50,14 @@ const Image = styled.div`
 `
 
 const ProductHeading = styled(Heading)`
-  padding-bottom: 4px;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  text-align: center;
 `
 
 const Description = styled(Text)`
   padding-bottom: 16px;
+  text-align: center;
 `
 
 const Price = styled(Heading)`

@@ -2,7 +2,10 @@ import * as React from 'react'
 import { useStore } from 'effector-react'
 import { ThemeProvider, NormalizeCss } from '@/ui'
 import { Routes } from '@/lib/declarative-routing'
-import { $isAppStateReady, $isAuth, appMounted } from './features/app'
+import {
+  $isAppStateReady, $isAuth, appMounted, MainLayout,
+} from './features/app'
+import { Header } from './features/header'
 import { routerConfig } from './router-config'
 
 
@@ -23,7 +26,12 @@ export const App = () => {
     <React.Suspense fallback="loading...">
       <NormalizeCss />
       <ThemeProvider>
-        <Routes isAuth={isAuth} config={routerConfig} />
+        <MainLayout
+          header={<Header />}
+          main={(
+            <Routes isAuth={isAuth} config={routerConfig} />
+          )}
+        />
       </ThemeProvider>
     </React.Suspense>
   )

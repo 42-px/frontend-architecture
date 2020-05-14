@@ -2,6 +2,9 @@
   "catalog": {
     "addToCartBtn": "Add to cart"
   },
+  "cart": {
+    "total": "Total"
+  },
   "signIn": {
     "formHeader": "Login",
     "submitBtn": "Sign In",

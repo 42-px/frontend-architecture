@@ -1,3 +1,9 @@
 export {
-  appMounted, $isAppStateReady, $isAuth, authenticate,
+  $isAppStateReady,
+  $isAuth,
+  appMounted,
+  authenticate,
+  logout,
+  addToCart,
 } from './model'
+export * from './view/entries'

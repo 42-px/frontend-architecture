@@ -49,7 +49,7 @@ type StyledTextProps = {
 
 const StyledText = styled(TextComp)<StyledTextProps>`
   font-family: ${themeVar('baseFont')};
-  font-weight: 500;
+  font-weight: 400;
   font-size: ${({ size }) => fontSizes[size]};
   ${({ pale, theme }) => !pale && css`
     color: ${theme.textColor};
