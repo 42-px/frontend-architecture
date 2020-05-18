@@ -13,6 +13,7 @@ export const App = () => {
   const isAppStateReady = useStore($isAppStateReady)
   const isAuth = useStore($isAuth)
 
+
   React.useEffect(() => {
     appMounted()
   }, [])

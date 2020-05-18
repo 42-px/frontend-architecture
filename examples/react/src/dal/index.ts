@@ -1,7 +1,5 @@
 // export types
-export * from './rest-api'
+export { $accessToken, authenticate, initAuthState,  resetAuthState, authStateReady } from './rest-api'
+export * from './auth'
+export * from './products'
 export * from './entities'
-
-// export public api
-export { useTokenProvider } from './access-token'
-export { useAuthErrorHandler } from '@/lib/http-client'

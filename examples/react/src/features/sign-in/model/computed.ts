@@ -1,5 +1,5 @@
 import { combine, createStoreObject } from 'effector'
-import { signInProcess } from './events'
+import { signInFx } from './effects'
 import {
   $username, $password, $isPasswordValid, $isUsernameValid,
 } from './state'
@@ -10,7 +10,7 @@ export const $form = createStoreObject({
   password: $password,
 })
 
-export const $formDisabled = signInProcess.pending
+export const $formDisabled = signInFx.pending
 
 export const $isFormValid = combine(
   $isUsernameValid,
@@ -20,6 +20,6 @@ export const $isFormValid = combine(
 
 export const $submitEnabled = combine(
   $isFormValid,
-  signInProcess.pending,
+  signInFx.pending,
   (isFormValid, isPending) => isFormValid && !isPending,
 )

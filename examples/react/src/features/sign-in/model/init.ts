@@ -1,6 +1,4 @@
-import { sample, createStoreObject, forward } from 'effector'
-import { authClient } from '@/dal'
-import { authenticate } from '@/features/app'
+import { sample, guard } from 'effector'
 import { signIn } from './domain'
 import {
   $username,
@@ -14,9 +12,9 @@ import {
   passwordChanged,
   sumbit,
   reset,
-  signInProcess,
 } from './events'
-import { $isFormValid, $form } from './computed'
+import { signInFx } from './effects'
+import { $isFormValid } from './computed'
 
 signIn.onCreateStore((store) => store.reset(reset))
 
@@ -32,26 +30,11 @@ $isPasswordValid
   .reset(passwordChanged)
 
 $signInError
-  .on(signInProcess.failData, (_, error) => error)
+  .on(signInFx.failData, (_, error) => error)
   .reset([usernameChanged, passwordChanged])
 
-const submitWithForm = sample(
-  createStoreObject({
-    form: $form,
-    isFormValid: $isFormValid,
-  }),
-  sumbit,
-)
-
-submitWithForm.watch(({ form, isFormValid }) => {
-  if (isFormValid) {
-    signInProcess(form)
-  }
+guard({
+  source: sumbit,
+  filter: $isFormValid,
+  target: signInFx,
 })
-
-forward({
-  from: signInProcess.doneData.map(({ token }) => token),
-  to: authenticate,
-})
-
-signInProcess.use(authClient.signIn)

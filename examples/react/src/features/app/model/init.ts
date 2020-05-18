@@ -1,25 +1,25 @@
-import { useTokenProvider, useAuthErrorHandler } from '@/dal'
-import { readToken, writeToken } from '@/lib/token-storage'
+import { forward } from 'effector'
+import { initAuthState, resetAuthState, authStateReady } from '@/dal'
 import {
-  authenticate, tokenChanged, logout, appMounted, appStateReady,
+  logout, appMounted, appStateReady,
 } from './events'
-import { $token, $isAppStateReady } from './state'
+import { $isAppStateReady } from './state'
 
-$token
-  .on([authenticate, tokenChanged], (_, token) => token)
-  .reset(logout)
 
 $isAppStateReady.on(appStateReady, () => true)
 
-appMounted.watch(() => {
-  const token = readToken()
-  if (token) {
-    authenticate(token)
-  }
-  appStateReady()
+forward({
+  from: appMounted,
+  to: initAuthState,
 })
 
-$token.updates.watch((token) => writeToken(token))
+forward({
+  from: authStateReady,
+  to: appStateReady,
+})
 
-useAuthErrorHandler(() => logout())
-useTokenProvider(() => $token.getState())
+forward({
+  from: logout,
+  to: resetAuthState,
+})
+

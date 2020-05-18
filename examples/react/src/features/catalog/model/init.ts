@@ -1,27 +1,20 @@
 import { forward } from 'effector'
-import { productsClient } from '@/dal'
 import { catalog } from './domain'
 import { $productsList } from './state'
-import { getProducts, init, reset } from './events'
-import { PRODUCTS_PAGINATION_LIMIT } from './const'
+import { init, reset } from './events'
+import { getProductsFx } from './effects'
 
 // reset all stores on 'reset' event
 catalog.onCreateStore((store) => store.reset(reset))
 
 /* use cases logic */
 $productsList.on(
-  getProducts.doneData,
+  getProductsFx.doneData,
   (currentList, products) => [...currentList, ...products],
 )
 
 // get products on init
 forward({
-  from: init.map(() => ({
-    offset: 0,
-    limit: PRODUCTS_PAGINATION_LIMIT,
-  })),
-  to: getProducts,
+  from: init,
+  to: getProductsFx,
 })
-
-// bind data client with effects
-getProducts.use(productsClient.getProducts)

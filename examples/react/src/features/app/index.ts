@@ -2,7 +2,6 @@ export {
   $isAppStateReady,
   $isAuth,
   appMounted,
-  authenticate,
   logout,
   addToCart,
 } from './model'
