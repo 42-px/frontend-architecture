@@ -15,8 +15,8 @@ import {
   $signInError,
   usernameChanged,
   passwordChanged,
-  sumbit,
-} from '../../model'
+  submit,
+} from '../../model/private'
 
 
 const Username = () => {
@@ -66,7 +66,7 @@ export const SignInForm = () => {
 
   return (
     <Form
-      onSubmit={() => sumbit()}
+      onSubmit={() => submit()}
       heading={(
         <Heading level="lgx">{t('signIn.formHeader')}</Heading>
       )}

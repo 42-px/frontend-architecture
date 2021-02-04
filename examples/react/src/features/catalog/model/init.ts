@@ -1,8 +1,11 @@
 import { forward } from 'effector'
-import { catalog } from './domain'
-import { $productsList } from './state'
-import { init, reset } from './events'
-import { getProductsFx } from './effects'
+import {
+  catalog,
+  $productsList,
+  init,
+  reset,
+  getProductsFx,
+} from './private'
 
 // reset all stores on 'reset' event
 catalog.onCreateStore((store) => store.reset(reset))

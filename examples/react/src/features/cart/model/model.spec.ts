@@ -1,13 +1,16 @@
 /* eslint-disable no-undef */
-import { assert, expect } from 'chai'
+import { expect } from 'chai'
 import faker from 'faker'
 import { mockProduct, mockProductCollection } from '@/dal/mocks/products'
-import { addToCart } from '@/features/app/model'
-import { $cartItems } from './state'
 import {
-  increment, decrement, resetState,
-} from './events'
-import { $totalCount, $totalPrice } from './computed'
+  $cartItems,
+  $totalCount,
+  $totalPrice,
+  increment,
+  decrement,
+  resetState,
+} from './private'
+import { addToCart } from './public'
 import '@/features/app/model/init'
 import './init'
 

@@ -1,21 +1,12 @@
 import { forward } from 'effector'
 import { initAuthState, resetAuthState, authStateReady } from '@/dal'
-import {
-  logout, appMounted, appStateReady,
-} from './events'
-import { $isAppStateReady } from './state'
+import { logout, initApp, $isAppStateReady } from './public'
 
-
-$isAppStateReady.on(appStateReady, () => true)
+$isAppStateReady.on(authStateReady, () => true)
 
 forward({
-  from: appMounted,
+  from: initApp,
   to: initAuthState,
-})
-
-forward({
-  from: authStateReady,
-  to: appStateReady,
 })
 
 forward({

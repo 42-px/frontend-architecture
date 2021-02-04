@@ -1,20 +1,18 @@
 import { sample, guard } from 'effector'
-import { signIn } from './domain'
 import {
   $username,
   $password,
   $isUsernameValid,
   $isPasswordValid,
   $signInError,
-} from './state'
-import {
+  $isFormValid,
   usernameChanged,
   passwordChanged,
-  sumbit,
+  submit,
   reset,
-} from './events'
-import { signInFx } from './effects'
-import { $isFormValid } from './computed'
+  signInFx,
+  signIn,
+} from './private'
 
 signIn.onCreateStore((store) => store.reset(reset))
 
@@ -22,11 +20,11 @@ $username.on(usernameChanged, (_, username) => username)
 $password.on(passwordChanged, (_, password) => password)
 
 $isUsernameValid
-  .on(sample($username, sumbit), (_, username) => Boolean(username))
+  .on(sample($username, submit), (_, username) => Boolean(username))
   .reset(usernameChanged)
 
 $isPasswordValid
-  .on(sample($password, sumbit), (_, password) => Boolean(password))
+  .on(sample($password, submit), (_, password) => Boolean(password))
   .reset(passwordChanged)
 
 $signInError
@@ -34,7 +32,7 @@ $signInError
   .reset([usernameChanged, passwordChanged])
 
 guard({
-  source: sumbit,
+  source: submit,
   filter: $isFormValid,
   target: signInFx,
 })

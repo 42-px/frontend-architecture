@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { useStore } from 'effector-react'
 import { CartItem } from '@/ui'
-import { $cartItems, increment, decrement } from '../../model'
+import { $cartItems, increment, decrement } from '../../model/private'
 
 
 export const CartItems = () => {

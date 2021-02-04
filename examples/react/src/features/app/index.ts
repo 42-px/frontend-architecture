@@ -1,8 +1,7 @@
 export {
   $isAppStateReady,
   $isAuth,
-  appMounted,
+  initApp,
   logout,
-  addToCart,
-} from './model'
+} from './model/public'
 export * from './view/entries'

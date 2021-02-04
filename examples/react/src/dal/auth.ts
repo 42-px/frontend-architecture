@@ -14,8 +14,8 @@ export type SignInResult = {
   token: string;
 }
 
-export const signIn = restApi.effect<SignInParams, SignInResult, Error>()
-signIn.use(({ username, password }) => {
+export const signInFx = restApi.effect<SignInParams, SignInResult, Error>()
+signInFx.use(({ username, password }) => {
   /**
    * In a real app this module will have request calls:
    * await request({ ... }) or await authRequest({ ... })
@@ -31,10 +31,10 @@ signIn.use(({ username, password }) => {
 
 
 export const authClient = {
-  signIn,
+  signInFx,
 }
 
 forward({
-  from: signIn.doneData.map(({ token }) => token),
+  from: signInFx.doneData.map(({ token }) => token),
   to: authenticate
 })

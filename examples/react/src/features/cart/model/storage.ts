@@ -1,5 +1,6 @@
-import { CartItem } from './state'
-import { CART_LC_KEY } from './const'
+import { CartItem } from './private'
+
+const CART_LC_KEY = 'cart'
 
 export const readCart = () => {
   try {

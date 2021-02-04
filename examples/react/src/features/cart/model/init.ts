@@ -1,10 +1,15 @@
 import { forward } from 'effector'
-import { addToCart, appMounted } from '@/features/app'
-import { cart } from './domain'
-import { $cartItems } from './state'
+import { initApp } from '@/features/app'
 import {
-  init, resetState, increment, decrement, cartReadFromLC,
-} from './events'
+  cart,
+  $cartItems,
+  init,
+  resetState,
+  increment,
+  decrement,
+  cartReadFromLC,
+} from './private'
+import { addToCart } from './public'
 import { productAddedToCart, productCountIncremented, productCountDecremented } from './reducers'
 import { writeCart, readCart } from './storage'
 
@@ -17,7 +22,7 @@ $cartItems
   .on(decrement, productCountDecremented)
 
 forward({
-  from: appMounted,
+  from: initApp,
   to: init,
 })
 
