@@ -19,7 +19,10 @@ export const quickUUID = () => {
 
 export const arrayElement = <T>(items: T[]) => items[Math.floor(Math.random() * items.length)]
 
+export const randomBool = () => arrayElement([true, false])
+
 export const random = {
   quickUUID,
   arrayElement,
+  randomBool,
 }
