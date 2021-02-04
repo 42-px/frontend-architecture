@@ -1,4 +1,4 @@
-import { attachWrapper } from '@/lib/effector-extra'
+import { attachWrapper } from '@42px/effector-extra'
 import { Product } from './entities'
 import { Method, authRequestFx } from './rest-api'
 

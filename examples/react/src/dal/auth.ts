@@ -1,6 +1,6 @@
 import { forward } from 'effector'
+import { attachWrapper } from '@42px/effector-extra'
 import { createCustomError } from '@/lib/errors'
-import { attachWrapper } from '@/lib/effector-extra'
 import { authenticate, requestFx, Method } from './rest-api'
 
 export const InvalidCredentials = createCustomError('InvalidCredentials')
