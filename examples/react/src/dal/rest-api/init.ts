@@ -37,7 +37,7 @@ forward({
 })
 
 const axios = axiosLib.create({
-  baseURL: process.env.REST_API_BASE_URL,
+  baseURL: process.env.API_BASE_URL,
 })
 
 axios.interceptors.response.use(undefined, (error) => {
@@ -66,8 +66,6 @@ requestFx.use((params) => {
   })
 })
 readTokenFx.use(() => localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY))
-writeTokenFx.use((token) => {
-  return typeof token === 'string'
-    ? localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
-    : localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
-})
+writeTokenFx.use((token) => (typeof token === 'string'
+  ? localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
+  : localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)))

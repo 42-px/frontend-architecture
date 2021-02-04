@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('dotenv').config()
 
 const app = express()
-const port = 3000
+const port = Number(process.env.MOCK_SERVER_PORT) || 3000
 
 const mockAccessToken = () => '1234'
 
@@ -17,7 +20,9 @@ const quickUUID = () => {
   }
   s[14] = '4' // bits 12-15 of the time_hi_and_version field to 0010
   // bits 6-7 of the clock_seq_hi_and_reserved to 01
+  // eslint-disable-next-line no-bitwise
   s[19] = hexDigits.substr((Number(s[19]) & 0x3) | 0x8, 1)
+  // eslint-disable-next-line no-multi-assign
   s[8] = s[13] = s[18] = s[23] = '-'
 
   const uuid = s.join('')
@@ -64,6 +69,7 @@ const mockProduct = (product) => ({
   ...product,
 })
 
+// eslint-disable-next-line arrow-body-style
 const mockProductCollection = (count, product) => {
   return new Array(count).fill(null).map(() => mockProduct(product))
 }
@@ -74,12 +80,12 @@ app.use(bodyParser.json())
 const badRequest = (res) => {
   res.status(400)
   res.json({
-    error: "BadRequest",
+    error: 'BadRequest',
   })
 }
 
 app.post('/login', (req, res) => {
-  if (req.body && req.body.username === "42px" && req.body.password === "123") {
+  if (req.body && req.body.username === '42px' && req.body.password === '123') {
     return res.json({
       token: mockAccessToken(),
     })
@@ -88,9 +94,10 @@ app.post('/login', (req, res) => {
 })
 
 app.get('/products', (req, res) => {
-  res.json(mockProductCollection(parseInt(req.query.limit) || 50))
+  res.json(mockProductCollection(parseInt(req.query.limit, 10) || 50))
 })
 
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Api: http://localhost:${port}`)
 })

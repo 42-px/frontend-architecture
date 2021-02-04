@@ -1,7 +1,7 @@
 import { forward } from 'effector'
-import { authenticate, requestFx, Method } from './rest-api'
 import { createCustomError } from '@/lib/errors'
 import { attachWrapper } from '@/lib/effector-extra'
+import { authenticate, requestFx, Method } from './rest-api'
 
 export const InvalidCredentials = createCustomError('InvalidCredentials')
 
@@ -21,7 +21,7 @@ export const signInReqFx = attachWrapper({
     method: Method.post,
     body: params,
   }),
-  mapResult: ({ result }): SignInResult => result.data, 
+  mapResult: ({ result }): SignInResult => result.data,
 })
 
 
@@ -31,5 +31,5 @@ export const authClient = {
 
 forward({
   from: signInReqFx.doneData.map(({ token }) => token),
-  to: authenticate
+  to: authenticate,
 })

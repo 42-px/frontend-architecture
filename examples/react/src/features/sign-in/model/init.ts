@@ -1,38 +1,19 @@
-import { sample, guard } from 'effector'
+import { forward } from 'effector'
 import {
-  $username,
-  $password,
-  $isUsernameValid,
-  $isPasswordValid,
   $signInError,
-  $isFormValid,
-  usernameChanged,
-  passwordChanged,
-  submit,
-  reset,
+  signInForm,
   signInFx,
   signIn,
+  reset,
 } from './private'
 
 signIn.onCreateStore((store) => store.reset(reset))
 
-$username.on(usernameChanged, (_, username) => username)
-$password.on(passwordChanged, (_, password) => password)
-
-$isUsernameValid
-  .on(sample($username, submit), (_, username) => Boolean(username))
-  .reset(usernameChanged)
-
-$isPasswordValid
-  .on(sample($password, submit), (_, password) => Boolean(password))
-  .reset(passwordChanged)
-
 $signInError
   .on(signInFx.failData, (_, error) => error)
-  .reset([usernameChanged, passwordChanged])
+  .reset([signInForm.$values.updates])
 
-guard({
-  source: submit,
-  filter: $isFormValid,
-  target: signInFx,
+forward({
+  from: signInForm.formValidated,
+  to: signInFx,
 })

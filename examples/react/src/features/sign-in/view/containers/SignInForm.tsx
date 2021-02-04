@@ -1,38 +1,31 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStore } from 'effector-react'
-import { renderErrorText } from '@/lib/jsx-helpers'
+import { useField } from 'effector-forms'
 import {
   InputField, Form, FormRow, PrimaryButton, Heading, ErrorAlert,
 } from '@/ui'
 import {
-  $username,
-  $password,
-  $isPasswordValid,
-  $isUsernameValid,
+  signInForm,
   $formDisabled,
-  $submitEnabled,
+  signInFx,
   $signInError,
-  usernameChanged,
-  passwordChanged,
-  submit,
 } from '../../model/private'
 
 
 const Username = () => {
   const { t } = useTranslation()
-  const username = useStore($username)
-  const isUsernameValid = useStore($isUsernameValid)
+  const username = useField(signInForm.fields.username)
   const formDisabled = useStore($formDisabled)
 
   return (
     <FormRow>
       <InputField
-        value={username}
-        onChange={(e) => usernameChanged(e.target.value)}
+        value={username.value}
+        onChange={(e) => username.onChange(e.target.value)}
         placeholder={t('signIn.usernameLabel')}
         disabled={formDisabled}
-        errorText={!isUsernameValid ? t('signIn.usernameErrorText') : ''}
+        errorText={!username.isValid ? t('signIn.usernameErrorText') : ''}
       />
     </FormRow>
   )
@@ -40,19 +33,18 @@ const Username = () => {
 
 const Password = () => {
   const { t } = useTranslation()
-  const password = useStore($password)
-  const isPasswordValid = useStore($isPasswordValid)
+  const password = useField(signInForm.fields.password)
   const formDisabled = useStore($formDisabled)
 
   return (
     <FormRow>
       <InputField
         type="password"
-        value={password}
-        onChange={(e) => passwordChanged(e.target.value)}
+        value={password.value}
+        onChange={(e) => password.onChange(e.target.value)}
         placeholder={t('signIn.passwordLabel')}
         disabled={formDisabled}
-        errorText={!isPasswordValid ? t('signIn.passwordErrorText') : ''}
+        errorText={!password.isValid ? t('signIn.passwordErrorText') : ''}
       />
     </FormRow>
   )
@@ -61,21 +53,20 @@ const Password = () => {
 
 export const SignInForm = () => {
   const { t } = useTranslation()
-  const submitEnabled = useStore($submitEnabled)
+  const formValid = useStore(signInForm.$isValid)
+  const pending = useStore(signInFx.pending)
   const signInError = useStore($signInError)
+  const disabled = Boolean(!formValid || signInError || pending)
 
   return (
     <Form
-      onSubmit={() => submit()}
+      onSubmit={() => signInForm.submit()}
       heading={(
         <Heading level="lgx">{t('signIn.formHeader')}</Heading>
       )}
       error={!!signInError && (
         <ErrorAlert>
-          {renderErrorText(signInError.name, {
-            InvalidCredentials: t('errors.InvalidCredentials'),
-            UnknownError: t('errors.UnknownError'),
-          })}
+          {t('errors.InvalidCredentials')}
         </ErrorAlert>
       )}
       fields={(
@@ -85,7 +76,10 @@ export const SignInForm = () => {
         </>
       )}
       actions={(
-        <PrimaryButton type="submit" disabled={!submitEnabled}>
+        <PrimaryButton
+          type="submit"
+          disabled={disabled}
+        >
           {t('signIn.submitBtn')}
         </PrimaryButton>
       )}
