@@ -13,8 +13,11 @@
   "dependencies": {
     "@babel/runtime": "^7.9.6",
     "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "effector": "^20.15.0",
     "effector-react": "^20.7.1",
+    "express": "^4.17.1",
     "faker": "^4.1.0",
     "i18next": "^19.4.4",
     "i18next-http-backend": "^1.0.8",

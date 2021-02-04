@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const commonConfig = require('./webpack.common.config')
+require('./server.js')
 
 const devServerHost = process.env.DEV_SERVER_HOST || 'localhost'
 const devServerPort = Number(process.env.DEV_SERVER_HOST) || 8080

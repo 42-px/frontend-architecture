@@ -1,5 +1,5 @@
 import { createDomain, attach, createStoreObject, combine } from 'effector'
-import * as dal from '@/dal'
+import { authClient } from '@/dal'
 
 export const signIn = createDomain('sign-in')
 
@@ -15,7 +15,7 @@ export const submit = signIn.event<void>()
 export const reset = signIn.event<void>()
 
 export const signInFx = attach({
-  effect: dal.signInFx,
+  effect: authClient.signInReqFx,
   source: createStoreObject({
     username: $username,
     password: $password,

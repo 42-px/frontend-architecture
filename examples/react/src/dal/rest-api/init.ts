@@ -1,25 +1,43 @@
-import axiosLib, { AxiosRequestConfig } from 'axios'
-import { readToken, writeToken } from '@/lib/token-storage'
-import { $accessToken } from './state'
-import { authenticate, tokenChanged, initAuthState, resetAuthState, authStateReady } from './events'
-import { request } from './effects'
+import { forward, sample } from 'effector'
+import axiosLib from 'axios'
+import {
+  $accessToken,
+  $isAuthReady,
+  authenticate,
+  tokenChanged,
+  initAuthState,
+  resetAuthState,
+  authStateReady,
+  requestFx,
+  readTokenFx,
+  writeTokenFx,
+} from './units'
+import { ACCESS_TOKEN_STORAGE_KEY } from './const'
 
 $accessToken
-  .on([authenticate, tokenChanged], (_, token) => token)
+  .on([authenticate, tokenChanged, readTokenFx.doneData], (_, token) => token)
   .reset(resetAuthState)
 
-initAuthState.watch(() => {
-  const token = readToken()
-  if (token) {
-    authenticate(token)
-  }
-  authStateReady()
+$isAuthReady
+  .on(sample($accessToken, authStateReady), () => true)
+
+forward({
+  from: initAuthState,
+  to: readTokenFx,
 })
 
-$accessToken.updates.watch((token) => writeToken(token))
+forward({
+  from: readTokenFx.done,
+  to: authStateReady,
+})
+
+forward({
+  from: $accessToken.updates,
+  to: writeTokenFx,
+})
 
 const axios = axiosLib.create({
-  baseURL: process.env.REST_API_BASE_URL
+  baseURL: process.env.REST_API_BASE_URL,
 })
 
 axios.interceptors.response.use(undefined, (error) => {
@@ -29,15 +47,27 @@ axios.interceptors.response.use(undefined, (error) => {
   throw error
 })
 
-request.use((params) => {
+requestFx.use((params) => {
+  const defaultHeaders = params.headers || {}
   const headers = {
-    Authorization: params.accessToken ? `Bearer ${params.accessToken}` : undefined
+    ...defaultHeaders,
+  }
+
+  if (params.accessToken) {
+    headers.Authorization = `Bearer ${params.accessToken}`
   }
 
   return axios.request({
     headers,
+    method: params.method,
     url: params.url,
     params: params.query,
     data: params.body,
   })
+})
+readTokenFx.use(() => localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY))
+writeTokenFx.use((token) => {
+  return typeof token === 'string'
+    ? localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
+    : localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
 })
