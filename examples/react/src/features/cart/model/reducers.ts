@@ -1,5 +1,5 @@
 import { Product } from '@/dal'
-import { CartItem } from './state'
+import { CartItem } from './private'
 
 export const productAddedToCart = (cartItems: CartItem[], product: Product) => {
   const updatedCartItems: CartItem[] = []

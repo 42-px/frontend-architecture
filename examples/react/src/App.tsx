@@ -3,7 +3,7 @@ import { useStore } from 'effector-react'
 import { ThemeProvider, NormalizeCss } from '@/ui'
 import { Routes } from '@/lib/declarative-routing'
 import {
-  $isAppStateReady, $isAuth, appMounted, MainLayout,
+  $isAppStateReady, $isAuth, initApp, MainLayout,
 } from './features/app'
 import { Header } from './features/header'
 import { routerConfig } from './router-config'
@@ -15,7 +15,7 @@ export const App = () => {
 
 
   React.useEffect(() => {
-    appMounted()
+    initApp()
   }, [])
 
   if (!isAppStateReady) {

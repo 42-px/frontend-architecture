@@ -1,7 +1,7 @@
 import { forward } from 'effector'
-import { restApi, authenticate, request, authRequest } from './rest-api'
+import { attachWrapper } from '@42px/effector-extra'
 import { createCustomError } from '@/lib/errors'
-import { mockAccessToken } from './mocks/auth'
+import { authenticate, requestFx, Method } from './request'
 
 export const InvalidCredentials = createCustomError('InvalidCredentials')
 
@@ -14,27 +14,22 @@ export type SignInResult = {
   token: string;
 }
 
-export const signIn = restApi.effect<SignInParams, SignInResult, Error>()
-signIn.use(({ username, password }) => {
-  /**
-   * In a real app this module will have request calls:
-   * await request({ ... }) or await authRequest({ ... })
-   * In this demo we mock data layer
-  */
-  if (username === '42px' && password === '123') {
-    return Promise.resolve<SignInResult>({
-      token: mockAccessToken(),
-    })
-  }
-  return Promise.reject(new InvalidCredentials())
+export const signInReqFx = attachWrapper({
+  effect: requestFx,
+  mapParams: (params: SignInParams) => ({
+    url: '/login',
+    method: Method.post,
+    body: params,
+  }),
+  mapResult: ({ result }): SignInResult => result.data,
 })
 
 
 export const authClient = {
-  signIn,
+  signInReqFx,
 }
 
 forward({
-  from: signIn.doneData.map(({ token }) => token),
-  to: authenticate
+  from: signInReqFx.doneData.map(({ token }) => token),
+  to: authenticate,
 })

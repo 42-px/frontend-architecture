@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStore } from 'effector-react'
 import { Heading } from '@/ui'
-import { $totalPrice } from '../../model'
+import { $totalPrice } from '../../model/private'
 
 export const CartTotal = () => {
   const { t } = useTranslation()

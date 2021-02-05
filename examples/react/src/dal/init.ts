@@ -1,1 +1,1 @@
-import './rest-api/init'
+import './request/init'

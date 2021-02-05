@@ -1,1 +1,0 @@
-export const PRODUCTS_PAGINATION_LIMIT = 20

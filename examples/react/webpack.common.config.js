@@ -49,7 +49,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.EnvironmentPlugin(['REST_API_BASE_URL']),
+    new webpack.EnvironmentPlugin(['API_BASE_URL']),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: indexHtmlPath,

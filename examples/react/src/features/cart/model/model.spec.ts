@@ -1,27 +1,39 @@
 /* eslint-disable no-undef */
-import { assert, expect } from 'chai'
+import { expect } from 'chai'
 import faker from 'faker'
 import { mockProduct, mockProductCollection } from '@/dal/mocks/products'
-import { addToCart } from '@/features/app/model'
-import { $cartItems } from './state'
 import {
-  increment, decrement, resetState,
-} from './events'
-import { $totalCount, $totalPrice } from './computed'
-import '@/features/app/model/init'
+  $cartItems,
+  $totalCount,
+  $totalPrice,
+  increment,
+  decrement,
+  resetState,
+  writeCartFx,
+  readCartFx,
+  CartItem,
+} from './private'
+import { addToCart } from './public'
 import './init'
 
+const mockCartStorage = () => {
+  let cartStorage: CartItem[] = [] 
+  writeCartFx.use((cart) => {
+    cartStorage = cart
+  })
+  readCartFx.use(() => cartStorage)
+}
 
 describe('cart model', function () {
   const randomInt = (min: number, max: number) => Math.floor(faker.random.number({ max, min }))
 
   beforeEach(function () {
-    clearJSDOM()
-    setupJSDOM('')
     resetState()
   })
 
   it('add to cart', function () {
+    mockCartStorage()
+    
     const products = mockProductCollection(randomInt(1, 100))
     const totalPrice = products.reduce((total, product) => total + product.price, 0)
     for (const product of products) {

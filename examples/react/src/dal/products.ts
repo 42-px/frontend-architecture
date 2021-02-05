@@ -1,24 +1,24 @@
-import { createCustomError } from '@/lib/errors'
+import { attachWrapper } from '@42px/effector-extra'
 import { Product } from './entities'
-import { restApi, request, authRequest } from './rest-api'
-import { mockProductCollection } from './mocks/products'
+import { Method, authRequestFx } from './request'
 
 export type GetProductsParams = {
   offset: number;
   limit: number;
 }
 
-export const getProducts = restApi.effect<GetProductsParams, Product[], Error>()
-getProducts.use(({ limit }) => {
-  /**
-   * In a real app this module will have request calls:
-   * await request({ ... }) or await authRequest({ ... })
-   * In this demo we mock data layer
-  */
-  return mockProductCollection(limit)
+export const getProductsReqFx = attachWrapper({
+  effect: authRequestFx,
+  mapParams: ({ limit }: GetProductsParams) => ({
+    method: Method.get,
+    url: '/products',
+    query: {
+      limit: String(limit),
+    },
+  }),
+  mapResult: ({ result }): Product[] => result.data,
 })
 
-
 export const productsClient = {
-  getProducts,
+  getProductsReqFx,
 }

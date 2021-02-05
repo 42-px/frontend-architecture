@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useStore } from 'effector-react'
-import { addToCart } from '@/features/app'
-import { $productsList } from '../../model'
+import { addToCart } from '@/features/cart'
+import { $productsList } from '../../model/private'
 import { ProductsGrid } from '../parts'
 
 export const ProductsList = () => {

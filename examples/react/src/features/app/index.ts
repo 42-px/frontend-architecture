@@ -1,8 +1,2 @@
-export {
-  $isAppStateReady,
-  $isAuth,
-  appMounted,
-  logout,
-  addToCart,
-} from './model'
+export * from './model/public'
 export * from './view/entries'

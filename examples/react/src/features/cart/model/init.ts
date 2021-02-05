@@ -1,29 +1,42 @@
 import { forward } from 'effector'
-import { addToCart, appMounted } from '@/features/app'
-import { cart } from './domain'
-import { $cartItems } from './state'
+import { initApp } from '@/features/app'
 import {
-  init, resetState, increment, decrement, cartReadFromLC,
-} from './events'
+  cart,
+  $cartItems,
+  init,
+  resetState,
+  increment,
+  decrement,
+  writeCartFx,
+  readCartFx,
+} from './private'
+import { addToCart } from './public'
 import { productAddedToCart, productCountIncremented, productCountDecremented } from './reducers'
 import { writeCart, readCart } from './storage'
 
 cart.onCreateStore((store) => store.reset(resetState))
 
 $cartItems
-  .on(cartReadFromLC, (_, cartItems) => cartItems)
+  .on(readCartFx.doneData, (_, cartItems) => cartItems)
   .on(addToCart, productAddedToCart)
   .on(increment, productCountIncremented)
   .on(decrement, productCountDecremented)
 
 forward({
-  from: appMounted,
+  from: initApp,
   to: init,
 })
 
-init.watch(() => {
-  const cartItems = readCart()
-  cartReadFromLC(cartItems)
+forward({
+  from: init,
+  to: readCartFx,
 })
 
-$cartItems.updates.watch(writeCart)
+forward({
+  from: $cartItems.updates,
+  to: writeCartFx,
+})
+
+
+writeCartFx.use(writeCart)
+readCartFx.use(readCart)
