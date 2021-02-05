@@ -9,22 +9,31 @@ import {
   increment,
   decrement,
   resetState,
+  writeCartFx,
+  readCartFx,
+  CartItem,
 } from './private'
 import { addToCart } from './public'
-import '@/features/app/model/init'
 import './init'
 
+const mockCartStorage = () => {
+  let cartStorage: CartItem[] = [] 
+  writeCartFx.use((cart) => {
+    cartStorage = cart
+  })
+  readCartFx.use(() => cartStorage)
+}
 
 describe('cart model', function () {
   const randomInt = (min: number, max: number) => Math.floor(faker.random.number({ max, min }))
 
   beforeEach(function () {
-    clearJSDOM()
-    setupJSDOM('')
     resetState()
   })
 
   it('add to cart', function () {
+    mockCartStorage()
+    
     const products = mockProductCollection(randomInt(1, 100))
     const totalPrice = products.reduce((total, product) => total + product.price, 0)
     for (const product of products) {

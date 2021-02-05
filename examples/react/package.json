@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.dev.config.js",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.prod.config.js",
-    "test": "cross-env NODE_ENV=test mocha-webpack './src/**/*.spec.ts' --require setup-jsdom.js  --webpack-config webpack.config-test.js"
+    "test": "cross-env NODE_ENV=test mocha-webpack './src/**/*.spec.ts' --webpack-config webpack.config-test.js"
   },
   "author": "42px",
   "license": "ISC",

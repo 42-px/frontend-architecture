@@ -1,6 +1,6 @@
 import { attachWrapper } from '@42px/effector-extra'
 import { Product } from './entities'
-import { Method, authRequestFx } from './rest-api'
+import { Method, authRequestFx } from './request'
 
 export type GetProductsParams = {
   offset: number;
