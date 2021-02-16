@@ -1,4 +1,5 @@
-import { createDomain, sample } from 'effector'
+import { sample } from 'effector'
+import { root } from '@/root'
 import { Theme, mainTheme } from './themes'
 
 type ThemeItem = {
@@ -11,7 +12,7 @@ const defaultTheme = (): ThemeItem => ({
   variables: mainTheme,
 })
 
-const theming = createDomain('theming')
+const theming = root.domain('theming')
 
 export const changeTheme = theming.event<string>()
 export const registerTheme = theming.event<ThemeItem>()

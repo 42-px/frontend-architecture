@@ -1,11 +1,10 @@
-import {
-  createDomain, attach,
-} from 'effector'
+import { attach } from 'effector'
 import { createForm } from 'effector-forms'
+import { root } from '@/root'
 import { authClient, SignInParams } from '@/dal'
 import { required } from '@/lib/validation-rules'
 
-export const signIn = createDomain('sign-in')
+export const signIn = root.domain('sign-in')
 
 export const $signInError = signIn.store<Error | null>(null)
 export const reset = signIn.event<void>()

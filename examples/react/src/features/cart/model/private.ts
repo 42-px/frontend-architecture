@@ -1,4 +1,4 @@
-import { createDomain } from 'effector'
+import { root } from '@/root'
 import { Product } from '@/dal'
 
 export type CartItem = {
@@ -7,7 +7,7 @@ export type CartItem = {
   totalPrice: number;
 }
 
-export const cart = createDomain('cart')
+export const cart = root.domain('cart')
 
 export const $cartItems = cart.store<CartItem[]>([])
 

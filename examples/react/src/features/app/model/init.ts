@@ -13,4 +13,3 @@ forward({
   from: logout,
   to: resetAuthState,
 })
-

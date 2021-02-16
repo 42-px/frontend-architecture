@@ -1,7 +1,7 @@
-import { createDomain } from 'effector'
+import { root } from '@/root'
 import { $accessToken } from '@/dal'
 
-export const appPublicApi = createDomain('app-public-api')
+export const appPublicApi = root.domain('app-public-api')
 
 export const $isAuth = $accessToken.map(Boolean)
 export const $isAppStateReady = appPublicApi.store<boolean>(false)

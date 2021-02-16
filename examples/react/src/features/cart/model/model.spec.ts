@@ -1,14 +1,16 @@
 /* eslint-disable no-undef */
-import { expect } from 'chai'
+/* eslint-disable no-await-in-loop */
 import faker from 'faker'
+import { fork, allSettled, Scope } from 'effector'
+import { mockEffects } from '@42px/effector-extra'
 import { mockProduct, mockProductCollection } from '@/dal/mocks/products'
+import { root } from '@/root'
 import {
   $cartItems,
   $totalCount,
   $totalPrice,
   increment,
   decrement,
-  resetState,
   writeCartFx,
   readCartFx,
   CartItem,
@@ -17,69 +19,84 @@ import { addToCart } from './public'
 import './init'
 
 const mockCartStorage = () => {
-  let cartStorage: CartItem[] = [] 
-  writeCartFx.use((cart) => {
-    cartStorage = cart
-  })
-  readCartFx.use(() => cartStorage)
+  let cartStorage: CartItem[] = []
+
+  return mockEffects()
+    .set(writeCartFx, (cart) => {
+      cartStorage = cart
+    })
+    .set(readCartFx, () => cartStorage)
 }
 
-describe('cart model', function () {
-  const randomInt = (min: number, max: number) => Math.floor(faker.random.number({ max, min }))
+const randomInt = (min: number, max: number) => Math.floor(faker.random.number({ max, min }))
 
-  beforeEach(function () {
-    resetState()
+let scope: Scope
+
+test('add to cart', async () => {
+  scope = fork(root, {
+    handlers: mockCartStorage(),
   })
 
-  it('add to cart', function () {
-    mockCartStorage()
-    
-    const products = mockProductCollection(randomInt(1, 100))
-    const totalPrice = products.reduce((total, product) => total + product.price, 0)
-    for (const product of products) {
-      addToCart(product)
-    }
-    $cartItems.getState().forEach((cartItem) => {
-      expect(cartItem.product).to.be.deep.equal(cartItem.product)
-      expect(cartItem.count).to.be.equal(1)
-      expect(cartItem.totalPrice).to.be.equal(cartItem.product.price)
-    })
-    expect($totalCount.getState()).to.be.equal(products.length)
-    expect($totalPrice.getState()).to.be.equal(totalPrice)
+  const products = mockProductCollection(randomInt(1, 100))
+  const expectedTotalPrice = products.reduce((total, product) => total + product.price, 0)
+
+  await products.map((product) => allSettled(addToCart, { scope, params: product }))
+
+  const totalCount = scope.getState($totalCount)
+  const cartItems = scope.getState($cartItems)
+  const totalPrice = scope.getState($totalPrice)
+
+  cartItems.forEach((cartItem) => {
+    expect(cartItem.product).toEqual(cartItem.product)
+    expect(cartItem.count).toBe(1)
+    expect(cartItem.totalPrice).toEqual(cartItem.product.price)
   })
+  expect(totalCount).toEqual(products.length)
+  expect(totalPrice).toEqual(expectedTotalPrice)
+})
 
-  it('increment', function () {
-    const price = faker.random.number(10000)
-    const products = mockProductCollection(randomInt(1, 50), { price })
-    const productCount = randomInt(1, 50)
+test('increment', async () => {
+  scope = fork(root)
+
+  const price = faker.random.number(10000)
+  const products = mockProductCollection(randomInt(1, 50), { price })
+  const productCount = randomInt(1, 50)
 
 
-    for (const product of products) {
-      addToCart(product)
-      for (let i = 1; i < productCount; i++) {
-        increment(product.id)
-      }
+  for (const product of products) {
+    await allSettled(addToCart, { scope, params: product })
+    for (let i = 1; i < productCount; i++) {
+      await allSettled(increment, { scope, params: product.id })
     }
+  }
 
-    expect($cartItems.getState().length).to.be.equal(products.length)
-    expect($totalCount.getState()).to.be.equal(products.length * productCount)
-    expect($totalPrice.getState()).to.be.equal($totalCount.getState() * price)
-  })
+  const totalCount = scope.getState($totalCount)
+  const cartItems = scope.getState($cartItems)
+  const totalPrice = scope.getState($totalPrice)
 
-  it('decrement', function () {
-    const product = mockProduct()
-    const incrementCount = randomInt(60, 100)
-    const decrementCount = randomInt(1, 50)
+  expect(cartItems.length).toEqual(products.length)
+  expect(totalCount).toEqual(products.length * productCount)
+  expect(totalPrice).toEqual(totalCount * price)
+})
 
-    addToCart(product)
-    for (let i = 1; i <= incrementCount; i++) {
-      increment(product.id)
-    }
+test('decrement', async () => {
+  scope = fork(root)
 
-    for (let i = 1; i <= decrementCount; i++) {
-      decrement(product.id)
-    }
+  const product = mockProduct()
+  const incrementCount = randomInt(60, 100)
+  const decrementCount = randomInt(1, 50)
 
-    expect($totalCount.getState()).to.be.equal(incrementCount + 1 - decrementCount)
-  })
+  await allSettled(addToCart, { scope, params: product })
+
+  for (let i = 1; i <= incrementCount; i++) {
+    await allSettled(increment, { scope, params: product.id })
+  }
+
+  for (let i = 1; i <= decrementCount; i++) {
+    await allSettled(decrement, { scope, params: product.id })
+  }
+
+  const totalCount = scope.getState($totalCount)
+
+  expect(totalCount).toEqual(incrementCount + 1 - decrementCount)
 })

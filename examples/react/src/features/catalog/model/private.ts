@@ -1,9 +1,10 @@
-import { createDomain, attach } from 'effector'
+import { attach } from 'effector'
+import { root } from '@/root'
 import { Product, productsClient } from '@/dal'
 
 export const PRODUCTS_PAGINATION_LIMIT = 20
 
-export const catalog = createDomain('catalog')
+export const catalog = root.domain('catalog')
 
 export const $productsList = catalog.store<Product[]>([])
 

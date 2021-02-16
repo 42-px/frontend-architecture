@@ -1,4 +1,5 @@
-import { createDomain, attach } from 'effector'
+import { attach } from 'effector'
+import { root } from '@/root'
 import { AxiosError, AxiosResponse } from 'axios'
 
 export enum Method {
@@ -22,7 +23,7 @@ type Request = {
 
 export type AccessToken = string | null
 
-export const restApi = createDomain('rest-api')
+export const restApi = root.domain('rest-api')
 
 export const initAuthState = restApi.event<void>()
 export const resetAuthState = restApi.event<void>()

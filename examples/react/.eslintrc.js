@@ -32,12 +32,11 @@ module.exports = {
     'import/no-unresolved': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
   },
-  plugins: ['@typescript-eslint', 'react-hooks', 'import', 'mocha'],
+  plugins: ['@typescript-eslint', 'react-hooks', 'import'],
   extends: [
     'airbnb',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/typescript',
-    'plugin:mocha/recommended',
   ],
 
   parserOptions: {
