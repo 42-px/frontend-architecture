@@ -1,5 +1,5 @@
 import './dal/init'
-import './features/catalog/init'
+import './features/products-list/init'
 import './features/app/init'
-import './features/sign-in/init'
+import './features/sign-in-form/init'
 import './features/cart/init'

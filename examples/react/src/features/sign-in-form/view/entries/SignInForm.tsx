@@ -13,7 +13,7 @@ import {
 } from '../../model/private'
 
 
-const Username = () => {
+const Username = React.memo(() => {
   const { t } = useTranslation()
   const username = useField(signInForm.fields.username)
   const formDisabled = useStore($formDisabled)
@@ -29,9 +29,9 @@ const Username = () => {
       />
     </FormRow>
   )
-}
+})
 
-const Password = () => {
+const Password = React.memo(() => {
   const { t } = useTranslation()
   const password = useField(signInForm.fields.password)
   const formDisabled = useStore($formDisabled)
@@ -48,10 +48,10 @@ const Password = () => {
       />
     </FormRow>
   )
-}
+})
 
 
-export const SignInForm = () => {
+export const SignInForm = React.memo(() => {
   const { t } = useTranslation()
   const formValid = useStore(signInForm.$isValid)
   const pending = useStore(signInFx.pending)
@@ -85,4 +85,4 @@ export const SignInForm = () => {
       )}
     />
   )
-}
+})

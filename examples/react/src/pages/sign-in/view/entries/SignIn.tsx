@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { breakpoint } from 'styled-components-breakpoint'
-import { SignInForm } from '../containers'
+import { SignInForm } from '@/features/sign-in-form/view'
 
 export const SignIn = () => (
   <Wrap>

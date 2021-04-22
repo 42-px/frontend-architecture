@@ -5,7 +5,7 @@ import { CartItem } from '@/ui'
 import { $cartItems, increment, decrement } from '../../model/private'
 
 
-export const CartItems = () => {
+export const CartItems = React.memo(() => {
   const cartItems = useStore($cartItems)
 
   return (
@@ -25,4 +25,4 @@ export const CartItems = () => {
       ))}
     </>
   )
-}
+})

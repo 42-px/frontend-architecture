@@ -4,7 +4,7 @@ import { useStore } from 'effector-react'
 import { Heading } from '@/ui'
 import { $totalPrice } from '../../model/private'
 
-export const CartTotal = () => {
+export const CartTotal = React.memo(() => {
   const { t } = useTranslation()
   const totalPrice = useStore($totalPrice)
 
@@ -13,4 +13,4 @@ export const CartTotal = () => {
       {`${t('cart.total')}: ${totalPrice}`}
     </Heading>
   )
-}
+})

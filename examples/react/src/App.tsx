@@ -3,9 +3,10 @@ import { useStore } from 'effector-react'
 import { ThemeProvider, NormalizeCss } from '@/ui'
 import { Routes } from '@/lib/declarative-routing'
 import {
-  $isAppStateReady, $isAuth, initApp, MainLayout,
-} from './features/app'
-import { Header } from './features/header'
+  $isAppStateReady, $isAuth, initApp
+} from './features/app/model'
+import { MainLayout } from './features/app/view'
+import { Header } from './features/header/view'
 import { routerConfig } from './router-config'
 
 

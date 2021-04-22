@@ -17,6 +17,7 @@ type Props = {
 export const CartLayout = ({ trigger, items, total }: Props) => {
   const [contentVisible, setContentVisibility] = React.useState(false)
 
+
   const show = () => setContentVisibility(true)
   const hide = () => setContentVisibility(false)
 
@@ -25,12 +26,13 @@ export const CartLayout = ({ trigger, items, total }: Props) => {
       <div onClick={show}>
         {trigger}
       </div>
-      <Content
-        contentVisible={contentVisible}
-        onClose={hide}
-        items={items}
-        total={total}
-      />
+      {contentVisible && (
+        <Content
+          onClose={hide}
+          items={items}
+          total={total}
+        />
+      )}
     </Wrap>
   )
 }
@@ -40,21 +42,20 @@ const Wrap = styled.div`
 `
 
 type ContentProps = {
-  contentVisible?: boolean;
   onClose?: () => void;
   items: React.ReactNode;
   total: React.ReactNode;
 }
 
 const Content = ({
-  contentVisible, items, total, onClose,
+  items, total, onClose,
 }: ContentProps) => {
   const { ref } = useClickOutside<HTMLDivElement>(() => {
     if (onClose) onClose()
   })
 
   return (
-    <ContentWrap ref={ref} contentVisible={contentVisible}>
+    <ContentWrap ref={ref}>
       <CloseRow>
         <div onClick={onClose}>
           <Icon icon="close" width={16} />
@@ -70,11 +71,8 @@ const Content = ({
   )
 }
 
-type ContentWrapProps = {
-  contentVisible?: boolean;
-}
 
-const ContentWrap = styled(Paper)<ContentWrapProps>`
+const ContentWrap = styled(Paper)`
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -90,9 +88,6 @@ const ContentWrap = styled(Paper)<ContentWrapProps>`
     left: auto;
     width: auto;
   `}
-  ${({ contentVisible }) => contentVisible === false && css`
-    display: none;
-  `};
 `
 
 const CloseRow = styled.div`

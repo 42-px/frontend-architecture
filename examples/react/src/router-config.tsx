@@ -1,6 +1,6 @@
 import { RouterConfig } from '@/lib/declarative-routing'
-import { Catalog } from './features/catalog'
-import { SignIn } from './features/sign-in'
+import { Catalog } from './pages/catalog'
+import { SignIn } from './pages/sign-in'
 
 
 export const routerConfig: RouterConfig = {

@@ -1,5 +1,5 @@
 import { forward } from 'effector'
-import { initApp } from '@/features/app'
+import { initApp } from '@/features/app/model'
 import {
   cart,
   $cartItems,

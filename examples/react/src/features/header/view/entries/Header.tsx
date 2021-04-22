@@ -1,9 +1,12 @@
 import * as React from 'react'
 import { useStore } from 'effector-react'
-import { $isAuth, logout, SelectLang } from '@/features/app'
-import { Cart } from '@/features/cart'
+import { $isAuth, logout } from '@/features/app/model'
+import { SelectLang } from '@/features/app/view'
+import { Cart } from '@/features/cart/view'
 import { Icon } from '@/ui'
 import { HeaderLayout, HeaderItem } from '../parts'
+
+
 
 export const Header = () => {
   const isAuth = useStore($isAuth)

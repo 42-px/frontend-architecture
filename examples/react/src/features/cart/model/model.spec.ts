@@ -30,17 +30,19 @@ const mockCartStorage = () => {
 
 const randomInt = (min: number, max: number) => Math.floor(faker.random.number({ max, min }))
 
-let scope: Scope
 
 test('add to cart', async () => {
-  scope = fork(root, {
+  const scope = fork(root, {
     handlers: mockCartStorage(),
   })
 
   const products = mockProductCollection(randomInt(1, 100))
   const expectedTotalPrice = products.reduce((total, product) => total + product.price, 0)
 
-  await products.map((product) => allSettled(addToCart, { scope, params: product }))
+  for (const product of products) {
+    await allSettled(addToCart, { scope, params: product })
+  }
+
 
   const totalCount = scope.getState($totalCount)
   const cartItems = scope.getState($cartItems)
@@ -56,7 +58,9 @@ test('add to cart', async () => {
 })
 
 test('increment', async () => {
-  scope = fork(root)
+  const scope = fork(root, {
+    handlers: mockCartStorage(),
+  })
 
   const price = faker.random.number(10000)
   const products = mockProductCollection(randomInt(1, 50), { price })
@@ -80,7 +84,9 @@ test('increment', async () => {
 })
 
 test('decrement', async () => {
-  scope = fork(root)
+  const scope = fork(root, {
+    handlers: mockCartStorage(),
+  })
 
   const product = mockProduct()
   const incrementCount = randomInt(60, 100)
