@@ -1,6 +1,7 @@
 import { RouterConfig } from '@/lib/declarative-routing'
 import { Catalog } from './pages/catalog'
 import { SignIn } from './pages/sign-in'
+import { Todo } from './pages/todos/view/Todo'
 
 
 export const routerConfig: RouterConfig = {
@@ -9,7 +10,7 @@ export const routerConfig: RouterConfig = {
   routes: [
     {
       path: '/',
-      component: Catalog,
+      component: Todo,
       type: 'private',
     },
     {
